@@ -36,15 +36,18 @@ const defaultUser = {
   lastVisitedAt: 0,
 };
 
-const currentUser = ref(defaultUser);
+const currentUser = ref(defaultUser as User);
 
-const formattedUserList = ref([]);
+const formattedUserList = ref<User[]>();
 
 // format date to readable format for the form
 watchEffect(() => {
   formattedUserList.value = userStore.users.map((user) => ({
     ...user,
-    lastVisitedAt: millisecondsToDatetime(user.lastVisitedAt, 'datetime'),
+    lastVisitedAt: millisecondsToDatetime(
+      user.lastVisitedAt as number,
+      'datetime',
+    ),
   }));
 });
 
@@ -54,14 +57,14 @@ const rowSelected = (rowData: User) => {
 
   currentUser.value = {
     ...rowData,
-    lastVisitedAt: toDatetimeLocalString(rowData.lastVisitedAt),
+    lastVisitedAt: toDatetimeLocalString(rowData.lastVisitedAt as string),
   };
 };
 
 function saveUserHandler(updatedUser: User) {
   const formattedUser = {
     ...updatedUser,
-    lastVisitedAt: datetimeLocalToSeconds(updatedUser.lastVisitedAt),
+    lastVisitedAt: datetimeLocalToSeconds(updatedUser.lastVisitedAt as string),
   };
 
   const index = userStore.users.findIndex(
