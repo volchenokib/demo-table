@@ -9,7 +9,6 @@ export const registerRoutes = (
   routes.forEach((route) => {
     pages.push({
       name: route.name,
-      // will add the path of /fr for langs different from default
       path: `${route.path}`,
       file: resolve(dirname, route.file),
     });
