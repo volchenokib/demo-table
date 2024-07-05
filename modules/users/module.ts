@@ -14,16 +14,14 @@ export default defineNuxtModule({
       registerRoutes(routes, pages, __dirname);
     });
 
-    // // Register server handlers
-    // // nuxt.hook('nitro:config', (nitroConfig) => {
-    // //     nitroConfig.handlers.push({
-    // //       method: 'get',
-    // //       route: '/api/users',
-    // //       handler: '~/server/api/users.ts',
-    // //     });
-
-    // //     // Add more handlers if needed
-    // //   });
+    // Register server handlers
+    // nuxt.hook('nitro:config', (nitroConfig) => {
+    //   nitroConfig.handlers?.push({
+    //     method: 'get',
+    //     route: '/api/users',
+    //     handler: '~/server/api/users.ts',
+    //   });
+    // });
 
     // const resolver = createResolver(import.meta.url);
 
@@ -31,7 +29,5 @@ export default defineNuxtModule({
     //   route: '/api/users',
     //   handler: resolver.resolve('~/server/api/users.ts'),
     // });
-
-    // Pinia store modules are auto imported
   },
 });
