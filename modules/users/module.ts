@@ -19,7 +19,7 @@ export default defineNuxtModule({
     //   nitroConfig.handlers?.push({
     //     method: 'get',
     //     route: '/api/users',
-    //     handler: '~/server/api/users.ts',
+    //     handler: '~/server/api/users.get.ts',
     //   });
     // });
 
@@ -27,7 +27,7 @@ export default defineNuxtModule({
 
     // addServerHandler({
     //   route: '/api/users',
-    //   handler: resolver.resolve('~/server/api/users.ts'),
+    //   handler: resolver.resolve('~/server/api/users.get.ts'),
     // });
   },
 });
