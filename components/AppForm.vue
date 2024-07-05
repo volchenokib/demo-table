@@ -1,7 +1,10 @@
 <template>
   <div>
     <form>
-      <div v-for="(value, key) in filteredFormData" :key="key">
+      <div
+        v-for="([key, value], index) in entries(filteredFormData)"
+        :key="index"
+      >
         <label :for="key">{{ formatLabel(key) }}:</label>
         <input
           v-if="key !== 'lastVisitedAt'"
@@ -27,22 +30,30 @@
 <script lang="ts" setup>
 import { ref, defineProps, defineEmits, computed, watchEffect } from 'vue';
 
-const props = defineProps<{ data: Record<string, any> }>();
+type FormData = {
+  [key: string]: any;
+};
+
+const props = defineProps<{ data: FormData }>();
 const emit = defineEmits<{
-  (e: 'save', updatedData: Record<string, any>): void;
-  (e: 'delete', deletedData: Record<string, any>): void;
+  (e: 'save', updatedData: FormData): void;
+  (e: 'delete', deletedData: FormData): void;
 }>();
 
-const formData = ref<Record<string, any>>({ ...props.data });
+const formData = ref<FormData>({ ...props.data });
 
 watchEffect(() => {
   formData.value = { ...props.data };
 });
 
+// Filter out the id from the form data
+// We don't want to display the id in the form
 const filteredFormData = computed(() => {
   const { id, ...rest } = formData.value;
   return rest;
 });
+
+const entries = (obj: FormData) => Object.entries(obj) as [string, any][]; // This ensures that the key is always a string
 
 const formatLabel = (key: string) => {
   return key
@@ -65,7 +76,7 @@ function resetFormData() {
   formData.value = Object.keys(formData.value).reduce((acc, key) => {
     acc[key] = typeof formData.value[key] === 'number' ? 0 : '';
     return acc;
-  }, {} as Record<string, any>);
+  }, {} as FormData);
 }
 
 const saveData = () => {
