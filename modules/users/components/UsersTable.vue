@@ -21,8 +21,9 @@ import AppTable from '@/components/AppTable.vue';
 import AppForm from '@/components/AppForm.vue';
 import type { User } from '@/modules/users/support/types';
 import {
-  datetimeLocalToMilliseconds,
-  millisecondsToDatetimeLocal,
+  millisecondsToDatetime,
+  toDatetimeLocalString,
+  datetimeLocalToSeconds,
 } from '@/modules/users/support/helpers';
 
 const userStore = useUsersStore();
@@ -37,32 +38,30 @@ const defaultUser = {
 
 const currentUser = ref(defaultUser);
 
-function numberToDateTime(timestamp: number) {
-  return new Date(timestamp * 1000).toISOString().slice(0, 16);
-}
-
 const formattedUserList = ref([]);
 
+// format date to readable format for the form
 watchEffect(() => {
   formattedUserList.value = userStore.users.map((user) => ({
     ...user,
-    lastVisitedAt: numberToDateTime(user.lastVisitedAt),
+    lastVisitedAt: millisecondsToDatetime(user.lastVisitedAt, 'datetime'),
   }));
 });
 
+// format date to be saved in the store
 const rowSelected = (rowData: User) => {
   if (!rowData) return (currentUser.value = defaultUser);
 
   currentUser.value = {
     ...rowData,
-    lastVisitedAt: millisecondsToDatetimeLocal(rowData.lastVisitedAt),
+    lastVisitedAt: toDatetimeLocalString(rowData.lastVisitedAt),
   };
 };
 
 function saveUserHandler(updatedUser: User) {
   const formattedUser = {
     ...updatedUser,
-    lastVisitedAt: datetimeLocalToMilliseconds(updatedUser.lastVisitedAt),
+    lastVisitedAt: datetimeLocalToSeconds(updatedUser.lastVisitedAt),
   };
 
   const index = userStore.users.findIndex(
@@ -78,11 +77,4 @@ function saveUserHandler(updatedUser: User) {
 function deleteUserHandler(user: User) {
   userStore.deleteUser(user.id);
 }
-
-watchEffect(() => {
-  formattedUserList.value = userStore.users.map((user) => ({
-    ...user,
-    lastVisitedAt: numberToDateTime(user.lastVisitedAt),
-  }));
-});
 </script>
