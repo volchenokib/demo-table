@@ -15,5 +15,5 @@ const { fetch, users } = useUsers();
 await fetch();
 
 const userStore = useUsersStore();
-userStore.$patch({ users });
+userStore.$patch({ users: users.value });
 </script>
