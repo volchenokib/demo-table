@@ -38,7 +38,7 @@ const defaultUser = {
 
 const currentUser = ref(defaultUser as User);
 
-const formattedUserList = ref<User[]>();
+const formattedUserList = ref<User[]>([]);
 
 // format date to readable format for the form
 watchEffect(() => {

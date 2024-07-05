@@ -28,9 +28,9 @@
 <script lang="ts" setup>
 import { ref, defineProps, defineEmits, watchEffect } from 'vue';
 
-interface TableRow {
+type TableRow = {
   [key: string]: any;
-}
+};
 
 const props = defineProps<{ initialData: TableRow[] }>();
 const emit = defineEmits<{
