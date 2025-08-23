@@ -20,11 +20,15 @@ function start() {
 }
 
 onMounted(async () => {
-  const Atropos = (await import('atropos')).default;
-  Atropos({
-    el: '.my-atropos',
-    shadow: false,
-  });
+  try {
+    const Atropos = (await import('atropos')).default;
+    Atropos({
+      el: '.my-atropos',
+      shadow: false,
+    });
+  } catch (error) {
+    console.error('Failed to load Atropos library:', error);
+  }
 });
 </script>
 
