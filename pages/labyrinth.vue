@@ -14,17 +14,27 @@
 <script setup lang="ts">
 import 'atropos/css';
 import Atropos from 'atropos';
-import { onMounted } from 'vue';
+import { onMounted, nextTick } from 'vue';
 
 function start() {
   alert('Игра ещё в разработке');
 }
 
-onMounted(() => {
-  Atropos({
-    el: '.my-atropos',
-    shadow: false,
-  });
+onMounted(async () => {
+  if (process.client) {
+    await nextTick();
+    setTimeout(() => {
+      const element = document.querySelector('.my-atropos');
+      if (element) {
+        Atropos({
+          el: '.my-atropos',
+          shadow: false,
+          highlight: false,
+          rotateTouch: false,
+        });
+      }
+    }, 100);
+  }
 });
 </script>
 

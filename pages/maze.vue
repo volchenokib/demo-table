@@ -13,21 +13,27 @@
 
 <script setup lang="ts">
 import 'atropos/css';
-import { onMounted } from 'vue';
+import Atropos from 'atropos';
+import { onMounted, nextTick } from 'vue';
 
 function start() {
   alert('Игра ещё в разработке');
 }
 
 onMounted(async () => {
-  try {
-    const Atropos = (await import('atropos')).default;
-    Atropos({
-      el: '.my-atropos',
-      shadow: false,
-    });
-  } catch (error) {
-    console.error('Failed to load Atropos library:', error);
+  if (process.client) {
+    await nextTick();
+    setTimeout(() => {
+      const element = document.querySelector('.my-atropos');
+      if (element) {
+        Atropos({
+          el: '.my-atropos',
+          shadow: false,
+          highlight: false,
+          rotateTouch: false,
+        });
+      }
+    }, 100);
   }
 });
 </script>
