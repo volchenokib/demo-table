@@ -30,6 +30,7 @@ onMounted(async () => {
           el: '.my-atropos',
           shadow: false,
           highlight: false,
+          rotateTouch: false,
         });
       }
     }, 100);
